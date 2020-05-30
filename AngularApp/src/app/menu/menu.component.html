@@ -1,0 +1,117 @@
+<form>
+  <h4>Select country/countries</h4>
+  <mat-form-field>
+    <mat-label>Country/Countries</mat-label>
+    <mat-select [formControl]="countries" multiple>
+      <mat-select-trigger>
+        {{countries.value ? countries.value[0] : ''}}
+        <span *ngIf="countries.value?.length > 1" class="MenuComponent">
+          (+{{countries.value.length - 1}} {{countries.value?.length === 2 ? 'other' : 'others'}})
+        </span>
+      </mat-select-trigger>
+      <mat-option *ngFor="let country of countriesList" [value]="country?.COUNTRY_CODE">{{country?.COUNTRY_NAME}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <h4>Select an inticator/indicators</h4>
+  <mat-form-field>
+    <mat-label>Inticator</mat-label>
+    <mat-select [formControl]="indicators" multiple>
+      <mat-select-trigger>
+        {{indicators.value ? indicators.value[0] : ''}}
+        <span *ngIf="indicators.value?.length > 1" class="MenuComponent">
+          (+{{indicators.value.length - 1}} {{indicators.value?.length === 2 ? 'other' : 'others'}})
+        </span>
+      </mat-select-trigger>
+      <mat-option *ngFor="let indicator of indicatorsList" [value]="indicator?.INDICATOR_CODE">
+        {{indicator?.INDICATOR_NAME}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <h4>Select year</h4>
+  <mat-form-field>
+    <mat-label>Years</mat-label>
+    <mat-select [formControl]="year">
+      <mat-option *ngFor="let year of years" [value]="year?.YEAR">
+       {{year?.YEAR}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <h4>Select group</h4>
+  <mat-form-field>
+    <mat-label>Groups</mat-label>
+    <mat-select [formControl]="group">
+      <mat-option *ngFor="let Group of groups" [value]="Group.GROUP_CODE">
+        {{Group.GROUP_NAME}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+<div class="button-row">
+  <button mat-raised-button color="primary"  (click)="submitInfo()">Submit</button>
+</div>
+<div class="button">
+  <button mat-raised-button color="primary"  (click)="initialize()">Reset</button>
+</div>
+
+<h3>Graphs</h3>
+
+<mat-tab-group animationDuration="0ms">
+  <mat-tab label="TimelineChart">
+    <div *ngIf="this.flagGraph">
+      <ngx-charts-line-chart
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="this.finalData"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        [timeline]="timeline">
+      </ngx-charts-line-chart>
+    </div>
+  </mat-tab>
+  <mat-tab label="BarChart">
+    <div *ngIf="this.flagGraph">
+      <ngx-charts-bar-horizontal-2d
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="this.finalData"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel">
+      </ngx-charts-bar-horizontal-2d>
+    </div>
+  </mat-tab>
+  <mat-tab label="ScatterChart">
+    <div *ngIf="this.flagGraph">
+      <ngx-charts-bubble-chart
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="this.finalData"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel">
+      </ngx-charts-bubble-chart>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+</form>
+
+
