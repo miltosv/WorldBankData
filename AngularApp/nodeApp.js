@@ -31,6 +31,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 //get requests from database
+//get all available countries
 app.get("/countries", (req,res) =>{
     let sql = `SELECT * FROM countries `;
     let query = db.query(sql, (err,result) =>{
@@ -40,6 +41,7 @@ app.get("/countries", (req,res) =>{
     });
 });
 
+////get all available indicators
 app.get("/indicators", (req,res) =>{
     let sql = `SELECT * FROM indicators `;
     let query = db.query(sql, (err,result) =>{
@@ -49,6 +51,7 @@ app.get("/indicators", (req,res) =>{
     });
 });
 
+//get all available years
 app.get("/years", (req,res) =>{
   let sql = `SELECT YEAR FROM years `;
   let query = db.query(sql, (err,result) =>{
@@ -69,6 +72,7 @@ app.get("/countries/:country", (req,res) =>{
   });
 });
 
+//get all years for each period
 app.get("/years/:period", (req,res) =>{
   let index = req.params.period;
   //array of index first is the period and second the year
@@ -77,13 +81,14 @@ app.get("/years/:period", (req,res) =>{
   console.log(arr[1]);
   period = arr[0];
   year = arr[1];
-  let sql = `SELECT ${period} FROM years WHERE YEAR= '${year}'`;
+  let sql = `SELECT YEAR FROM years WHERE ${period}=(SELECT ${period} FROM years WHERE YEAR= '${year}')`;
   let query = db.query(sql, (err,result) =>{
       if(err) throw err;
       res.send(result);
-      console.log("Year period loading to frond-end..");
+      console.log("Years for each period loading to frond-end..");
   });
 });
+
 //NE.EXP.GNFS.ZS
 app.get("/mesurement/:mes", (req,res) =>{
   let index = req.params.mes;

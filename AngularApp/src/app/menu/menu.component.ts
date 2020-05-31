@@ -55,7 +55,8 @@ export class MenuComponent implements OnInit{
   mesurements=[];
   //if the user change the selected values
   flag=false;
-
+  //prepare for final data
+  yearsForPeriod = [];
   //final data for the graph
   finalData: valuesPerCountry[] = [];
   //flag for the graph
@@ -140,12 +141,11 @@ export class MenuComponent implements OnInit{
   async submitInfo(){
     //alert('Submit');
     if(this.countries.value!=null && this.indicators.value!=null && this.year.value !=null && this.group.value !=null){
-      console.log(this.countries.value[0]);
+      /*console.log(this.countries.value[0]);
       console.log(this.indicators.value);
       console.log(this.year.value);
       console.log(this.group.value);
       alert('Options Selected!');
-      var i;
       for(i=0; i<this.countries.value.length; i++){
         await this.connectData.getMesurement(this.countries.value[i],this.indicators.value[i],this.year.value).then(response => response.json())
         .then(data => {
@@ -161,6 +161,24 @@ export class MenuComponent implements OnInit{
           }
         })
         .catch(error => console.error(error));
+      }*/
+      //upload all the years the selected period
+      await this.connectData.getYearsList().then(response => response.json())
+      .then(data => {
+        Object.values(data).forEach(entry => {
+          let arr = Object.values(entry);
+          let tmp =  JSON.stringify(arr[0]);
+          let year =new Year();
+          year.YEAR = parseInt(tmp);
+          this.years.push(year);
+        });
+      })
+    .catch(error => console.error(error));
+
+      for(let i in this.indicatorsList){
+        for(let j in this.countriesList){
+
+        }
       }
     }else{
       alert('Something went wrong..Select again!');

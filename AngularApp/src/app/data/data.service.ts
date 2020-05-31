@@ -23,6 +23,12 @@ export class ConnectData {
     return fetch(url);
   }
 
+  getYearsForPeriod(period,year){
+    const url = `${this.baseURL}/years/${period},${year}`;
+    console.log(url);
+    return fetch(url);
+  }
+
   getMesurement(country,indicator,year){
     const url = `${this.baseURL}/mesurement/${country},${indicator},${year}`;
     console.log(url);
