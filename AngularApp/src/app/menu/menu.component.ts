@@ -51,8 +51,6 @@ export class MenuComponent implements OnInit{
   indicators = new FormControl();
   year= new FormControl();
   group= new FormControl();
-  //list of mes
-  mesurements=[];
   //if the user change the selected values
   flag=false;
   //prepare for final data
@@ -163,26 +161,49 @@ export class MenuComponent implements OnInit{
         .catch(error => console.error(error));
       }*/
       //upload all the years the selected period
-      await this.connectData.getYearsList().then(response => response.json())
+      await this.connectData.getYearsForPeriod(this.group.value,this.year.value).then(response => response.json())
       .then(data => {
         Object.values(data).forEach(entry => {
           let arr = Object.values(entry);
           let tmp =  JSON.stringify(arr[0]);
-          let year =new Year();
-          year.YEAR = parseInt(tmp);
-          this.years.push(year);
+          this.yearsForPeriod.push(tmp);
         });
       })
-    .catch(error => console.error(error));
+      .catch(error => console.error(error));
 
-      for(let i in this.indicatorsList){
-        for(let j in this.countriesList){
+      /*console.log(this.yearsForPeriod);
+      console.log(this.countries.value);
+      console.log(this.indicators.value);
+      console.log(this.group.value);*/
 
+      //loops for every indicator -> i, country -> c and year -> y
+      for(var i=0; i<this.indicators.value.length; i++){
+        for(var c=0; c<this.countries.value.length; c++){
+          let tmpAr: valuesPerCountry;
+          let tmpValues: valuePair[] = [];
+          for(var y=0; y<this.yearsForPeriod.length; y++){
+            await this.connectData.getMesurement(this.countries.value[c].COUNTRY_CODE,this.indicators.value[i].INDICATOR_CODE,this.yearsForPeriod[y]).then(response => response.json())
+            .then(data => {
+              //we use if for null data
+              if(data.length > 0){
+                let arr = Object.values(data[0]);
+                let tmp =  JSON.stringify(arr[0]);
+                let mes = parseFloat(tmp);
+                let tmpMes: valuePair = ({name: this.yearsForPeriod[y], value: mes});
+                tmpValues.push(tmpMes);
+              }
+            })
+            .catch(error => console.error(error));
+          }
+          tmpAr=({name: this.countries.value[c].COUNTRY_NAME + " " +  this.indicators.value[i].INDICATOR_NAME, series: tmpValues});
+          this.finalData.push(tmpAr);
         }
+        this.yAxisLabel= this.yAxisLabel + " and "+ this.indicators.value[i].INDICATOR_NAME;
       }
     }else{
       alert('Something went wrong..Select again!');
     }
+    console.log(this.finalData);
 
     if (this.finalData!=null){
       this.flagGraph=true;
@@ -199,9 +220,9 @@ export class MenuComponent implements OnInit{
     this.indicators = new FormControl();
     this.year= new FormControl();
     this.group= new FormControl();
-    this.mesurements=[];
     this.finalData=[];
     this.flagGraph=false;
+    this.yearsForPeriod = [];
     this.ngOnInit();
   }
 

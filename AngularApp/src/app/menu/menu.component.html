@@ -9,7 +9,7 @@
           (+{{countries.value.length - 1}} {{countries.value?.length === 2 ? 'other' : 'others'}})
         </span>
       </mat-select-trigger>
-      <mat-option *ngFor="let country of countriesList" [value]="country?.COUNTRY_CODE">{{country?.COUNTRY_NAME}}</mat-option>
+      <mat-option *ngFor="let country of countriesList" [value]="country">{{country?.COUNTRY_NAME}}</mat-option>
     </mat-select>
   </mat-form-field>
 
@@ -23,7 +23,7 @@
           (+{{indicators.value.length - 1}} {{indicators.value?.length === 2 ? 'other' : 'others'}})
         </span>
       </mat-select-trigger>
-      <mat-option *ngFor="let indicator of indicatorsList" [value]="indicator?.INDICATOR_CODE">
+      <mat-option *ngFor="let indicator of indicatorsList" [value]="indicator">
         {{indicator?.INDICATOR_NAME}}
       </mat-option>
     </mat-select>
