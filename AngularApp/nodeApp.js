@@ -1,7 +1,6 @@
 const express = require("express");
 const mysql = require("mysql");
 const path = require("path");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
@@ -26,9 +25,6 @@ const corsOptions = {
 }
 app.use(cors(corsOptions));
 
-
-//Body parser middleware
-app.use(bodyParser.json());
 
 //get requests from database
 //get all available countries
@@ -61,17 +57,6 @@ app.get("/years", (req,res) =>{
   });
 });
 
-app.get("/countries/:country", (req,res) =>{
-  var country = req.params.country;
-  console.log(country);
-  let sql = `SELECT * FROM countries WHERE COUNTRY_NAME =  '${country}'`;
-  let query = db.query(sql, (err,result) =>{
-      if(err) throw err;
-      res.send(result);
-      console.log("Available countries loading to frond-end..");
-  });
-});
-
 //get all years for each period
 app.get("/years/:period", (req,res) =>{
   let index = req.params.period;
@@ -89,7 +74,7 @@ app.get("/years/:period", (req,res) =>{
   });
 });
 
-//NE.EXP.GNFS.ZS
+//get mesurements
 app.get("/mesurement/:mes", (req,res) =>{
   let index = req.params.mes;
   //array of index first: country, second:indicator, third:year

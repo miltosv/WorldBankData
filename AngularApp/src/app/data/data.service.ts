@@ -35,6 +35,4 @@ export class ConnectData {
     return fetch(url);
   }
 
-
-
 }

@@ -25,14 +25,28 @@ export interface Group{
 }
 
 //interfaces to prepare data for the charts
+//timeline and bar
 export interface valuePair{
   name:string,
   value:number;
 }
 
+export interface valuePair2{
+  name:string,
+  x:string,
+  y:number,
+  r:number;
+
+}
+//scatter
 export interface valuesPerCountry{
   name: string,
   series: valuePair[];
+}
+
+export interface valuesPerCountry2{
+  name: string,
+  series: valuePair2[];
 }
 
 @Component({
@@ -51,12 +65,13 @@ export class MenuComponent implements OnInit{
   indicators = new FormControl();
   year= new FormControl();
   group= new FormControl();
-  //if the user change the selected values
-  flag=false;
   //prepare for final data
   yearsForPeriod = [];
-  //final data for the graph
+  //final data for the graphs
+    //timeline and bar
   finalData: valuesPerCountry[] = [];
+    //scatter
+  finalData2: valuesPerCountry2[] = [];
   //flag for the graph
   flagGraph=false;
   // Graph options
@@ -77,6 +92,7 @@ export class MenuComponent implements OnInit{
 
   constructor(private connectData: ConnectData , private router:Router){}
 
+  //run went first load the app before view
   async ngOnInit(){
     this.refresh();
   }
@@ -160,7 +176,9 @@ export class MenuComponent implements OnInit{
       for(var i=0; i<this.indicators.value.length; i++){
         for(var c=0; c<this.countries.value.length; c++){
           let tmpAr: valuesPerCountry;
+          let tmpAr2: valuesPerCountry2;
           let tmpValues: valuePair[] = [];
+          let tmpValues2: valuePair2[] = [];
           for(var y=0; y<this.yearsForPeriod.length; y++){
             await this.connectData.getMesurement(this.countries.value[c].COUNTRY_CODE,this.indicators.value[i].INDICATOR_CODE,this.yearsForPeriod[y]).then(response => response.json())
             .then(data => {
@@ -170,28 +188,33 @@ export class MenuComponent implements OnInit{
                 let tmp =  JSON.stringify(arr[0]);
                 let mes = parseFloat(tmp);
                 let tmpMes: valuePair = ({name: this.yearsForPeriod[y], value: mes});
+                let tmpMes2: valuePair2 = ({name: this.yearsForPeriod[y], x: this.yearsForPeriod[y],y: mes,r:50});
                 tmpValues.push(tmpMes);
+                tmpValues2.push(tmpMes2);
               }
             })
             .catch();
           }
           tmpAr=({name: this.countries.value[c].COUNTRY_NAME + " " +  this.indicators.value[i].INDICATOR_NAME, series: tmpValues});
+          tmpAr2=({name: this.countries.value[c].COUNTRY_NAME + " " +  this.indicators.value[i].INDICATOR_NAME, series: tmpValues2});
+
           this.finalData.push(tmpAr);
+          this.finalData2.push(tmpAr2);
         }
-        //this.yAxisLabel= this.yAxisLabel + " and "+ this.indicators.value[i].INDICATOR_NAME;
       }
     }else{
       alert('Something went wrong..Select again!');
     }
-    console.log(this.finalData);
+    /*console.log(this.finalData);*/
 
-    if (this.finalData!=null){
+    if (this.finalData!=null && this.finalData2!=null){
       this.flagGraph=true;
     }else{
       alert('Something went wrong!');
     }
   }
 
+  //we initialize all the variables when the user want to reset his selections
   initialize(){
     this.countriesList=[];
     this.indicatorsList=[];
@@ -201,6 +224,7 @@ export class MenuComponent implements OnInit{
     this.year= new FormControl();
     this.group= new FormControl();
     this.finalData=[];
+    this.finalData2=[];
     this.flagGraph=false;
     this.yearsForPeriod = [];
     this.yAxisLabel="";
