@@ -188,7 +188,7 @@ export class MenuComponent implements OnInit{
                 let tmp =  JSON.stringify(arr[0]);
                 let mes = parseFloat(tmp);
                 let tmpMes: valuePair = ({name: this.yearsForPeriod[y], value: mes});
-                let tmpMes2: valuePair2 = ({name: this.yearsForPeriod[y], x: this.yearsForPeriod[y],y: mes,r:50});
+                let tmpMes2: valuePair2 = ({name: this.yearsForPeriod[y], x: this.yearsForPeriod[y],y: mes,r:mes});
                 tmpValues.push(tmpMes);
                 tmpValues2.push(tmpMes2);
               }
