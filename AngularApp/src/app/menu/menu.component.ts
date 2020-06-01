@@ -3,7 +3,7 @@ import {FormControl} from '@angular/forms';
 import {ConnectData} from '../data/data.service';
 import {Router} from '@angular/router';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import {first} from 'rxjs/operators';
+
 
 export class Country{
   COUNTRY_CODE: string;
@@ -137,29 +137,9 @@ export class MenuComponent implements OnInit{
 
   //method for submit button prepare all the data
   async submitInfo(){
-    //alert('Submit');
+
     if(this.countries.value!=null && this.indicators.value!=null && this.year.value !=null && this.group.value !=null){
-      /*console.log(this.countries.value[0]);
-      console.log(this.indicators.value);
-      console.log(this.year.value);
-      console.log(this.group.value);
-      alert('Options Selected!');
-      for(i=0; i<this.countries.value.length; i++){
-        await this.connectData.getMesurement(this.countries.value[i],this.indicators.value[i],this.year.value).then(response => response.json())
-        .then(data => {
-          console.log(data);
-          if(data.length > 0){
-            let arr = Object.values(data[0]);
-            let tmp =  JSON.stringify(arr[0]);
-            let mes = parseFloat(tmp);
-            this.mesurements.push(mes);
-            console.log(this.mesurements);
-          }else{
-            alert('No data');
-          }
-        })
-        .catch(error => console.error(error));
-      }*/
+
       //upload all the years the selected period
       await this.connectData.getYearsForPeriod(this.group.value,this.year.value).then(response => response.json())
       .then(data => {
@@ -193,12 +173,12 @@ export class MenuComponent implements OnInit{
                 tmpValues.push(tmpMes);
               }
             })
-            .catch(error => console.error(error));
+            .catch();
           }
           tmpAr=({name: this.countries.value[c].COUNTRY_NAME + " " +  this.indicators.value[i].INDICATOR_NAME, series: tmpValues});
           this.finalData.push(tmpAr);
         }
-        this.yAxisLabel= this.yAxisLabel + " and "+ this.indicators.value[i].INDICATOR_NAME;
+        //this.yAxisLabel= this.yAxisLabel + " and "+ this.indicators.value[i].INDICATOR_NAME;
       }
     }else{
       alert('Something went wrong..Select again!');
@@ -223,6 +203,7 @@ export class MenuComponent implements OnInit{
     this.finalData=[];
     this.flagGraph=false;
     this.yearsForPeriod = [];
+    this.yAxisLabel="";
     this.ngOnInit();
   }
 
