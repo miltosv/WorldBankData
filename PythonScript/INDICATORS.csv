@@ -1,0 +1,11 @@
+Indicator Name,Indicator Code
+Trade (% of GDP),NE.TRD.GNFS.ZS
+Imports of goods and services (% of GDP),NE.IMP.GNFS.ZS
+Exports of goods and services (% of GDP),NE.EXP.GNFS.ZS
+"Fertility rate, total (births per woman)",SP.DYN.TFRT.IN
+"Life expectancy at birth, total (years)",SP.DYN.LE00.IN
+Gross domestic income (constant LCU),NY.GDY.TOTL.KN
+GDP per capita growth (annual %),NY.GDP.PCAP.KD.ZG
+GDP (constant LCU),NY.GDP.MKTP.KN
+GDP growth (annual %),NY.GDP.MKTP.KD.ZG
+"Population, total",SP.POP.TOTL

@@ -31,17 +31,17 @@ export interface valuePair{
   value:number;
 }
 
+export interface valuesPerCountry{
+  name: string,
+  series: valuePair[];
+}
+
+//scatter
 export interface valuePair2{
   name:string,
   x:string,
   y:number,
   r:number;
-
-}
-//scatter
-export interface valuesPerCountry{
-  name: string,
-  series: valuePair[];
 }
 
 export interface valuesPerCountry2{
@@ -203,7 +203,7 @@ export class MenuComponent implements OnInit{
         }
       }
     }else{
-      alert('Something went wrong..Select again!');
+      alert('Something went wrong..Select again! (CLICK RESET FIRST)');
     }
     /*console.log(this.finalData);*/
 
