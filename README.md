@@ -12,6 +12,7 @@ Or you can use the initialisedwithdata.sql that has the data included
   Node: npm install mysql\
         nmp install express\
         npm install cors\
+        npm install -g nodemon\
   Angular: npm instal -g @angular/cli\
            ng add @angular/material
 # Usage
