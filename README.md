@@ -8,6 +8,7 @@ Angular app with mysql and node js that visualizes data with ngx-charts from Wor
 For ease of use initialise the database using either the scemacreator.sql file and then load the data from the csv files using the data import wizard. /
 Or you can use the initialisedwithdata.sql that has the data included
 
+(For windows cmd)\
 2. Install Angular and node js\
   Node: npm install mysql\
         nmp install express\
@@ -17,8 +18,10 @@ Or you can use the initialisedwithdata.sql that has the data included
            ng add @angular/material
 # Usage
 1. Start your DBMS (MySQL) service, if not running
-2. Start the Server of the project
-3. Start the Angular app
+2. Start the Server of the project\
+    nodemon nodeApp.js
+3. Start the Angular app\
+    ng serve
 
 #Team Members \
 Styliani Delia 2430\
