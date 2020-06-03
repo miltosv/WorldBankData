@@ -13,7 +13,7 @@ Or you can use the initialisedwithdata.sql that has the data included
         nmp install express\
         npm install cors\
   Angular: npm instal -g @angular/cli\
-           ng add @angular/material\
+           ng add @angular/material
 # Usage
 1. Start your DBMS (MySQL) service, if not running
 2. Start the Server of the project
